@@ -1,3 +1,7 @@
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -6,7 +10,7 @@ import java.util.Scanner;
 public class Juego {
 
     public static void main(String[] args) {
-        String rutaAbsoluta = "/Users/ManuelSchez/Desktop/Ejercicios/Prog/TareaFinal/salida.xml";
+        String rutaAbsoluta = "/Users/ManuelSchez/Desktop/Trabajo/salida.xml";
         List<Juego> resultado = new ArrayList<>();
         Mazo mazo = new Mazo();
         mazo.barajar();
@@ -38,10 +42,42 @@ public class Juego {
             } else if (respuesta.equals("n")) {
                 System.out.println("Te has plantado con " + manoJugador.valorMano() + " puntos");
                 finJuego = true;
-            }else {
+            } else {
                 System.out.println("Introduce una de las opciones solicitadas: ");
             }
         }
 
+        Resultado resultadoJuego = new Resultado("Jugador", manoJugador.valorMano());
+        guardarResultado(resultadoJuego);
+    }
+
+    private static void guardarResultado(Resultado resultado) {
+        try {
+            // Crear un contexto JAXB para la clase Resultado
+            JAXBContext jaxbContext = JAXBContext.newInstance(Resultado.class);
+
+            // Crear un marshaller
+            Marshaller marshaller = jaxbContext.createMarshaller();
+            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+
+            // Verificar si el archivo XML existe
+            File archivoXML = new File("ejemplo.xml");
+            Resultado.Resultados resultadosExistentes = new Resultado.Resultados();
+            if (archivoXML.exists()) {
+                // Leer el contenido del archivo XML
+                Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+                resultadosExistentes = (Resultado.Resultados) unmarshaller.unmarshal(new File("ejemplo.xml"));
+            }
+
+            // Agregar el nuevo resultado a la lista
+            resultadosExistentes.getlistaResultados().add(resultado);
+
+            // Reescribir el archivo XML con la lista modificada
+            marshaller.marshal(resultadosExistentes, archivoXML);
+
+            System.out.println("Archivo XML generado exitosamente.");
+        } catch (JAXBException e) {
+            e.printStackTrace();
+        }
     }
 }
