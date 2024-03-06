@@ -3,7 +3,8 @@ import java.util.Collections;
 
 public class Mazo {
     ArrayList<Carta> cartas;
-
+    //Creamos un metodo en el que mediante un doble for se va a ir ampliando las cartas
+    //mientras sea igual a 1 o menor de 13
     public Mazo() {
         cartas = new ArrayList<>();
         for (Carta.palo palo : Carta.palo.values()) {
@@ -12,7 +13,8 @@ public class Mazo {
             }
         }
     }
-    //
+    //En el caso de que el mazo este vacio retorna null
+    // en caso contrario devuelve la carta solicitada del mazo
     public Carta solicitarCarta() {
         if (cartas.isEmpty()) {
             System.out.println("El mazo está vacío.");

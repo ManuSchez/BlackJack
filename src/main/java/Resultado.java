@@ -1,63 +1,33 @@
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import java.util.ArrayList;
-import java.util.List;
 
-@XmlRootElement(name = "resultados")
+@XmlRootElement
 public class Resultado {
-
     private String nombre;
-    private int puntuacion;
-    @XmlElement(name = "resultado")
-    private List<Resultado> resultados= new ArrayList<>();
+    private int puntos;
 
     public Resultado() {
+        // Constructor por defecto requerido por JAXB
     }
 
-    public Resultado(String nombre, int puntuacion) {
+    public Resultado(String nombre, int puntos) {
         this.nombre = nombre;
-        this.puntuacion = puntuacion;
+        this.puntos = puntos;
     }
-
+    //Creacion de getters y setters
+    @XmlElement
     public String getNombre() {
         return nombre;
     }
-
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-
-    public int getPuntuacion() {
-        return puntuacion;
+    @XmlElement
+    public int getPuntos() {
+        return puntos;
+    }
+    public void setPuntos(int puntos) {
+        this.puntos = puntos;
+    }
     }
 
-    public void setPuntuacion(int puntuacion) {
-        this.puntuacion = puntuacion;
-    }
-
-    public List<Resultado> getResultados() {
-        return resultados;
-    }
-
-    public void setlistaesultados(List<Resultado> resultados) {
-        this.resultados = resultados;
-    }
-
-    public static class Resultados {
-
-        private List<Resultado> listaResultados;
-
-        public Resultados() {
-            listaResultados = new ArrayList<>();
-        }
-
-        public List<Resultado> getlistaResultados() {
-            return listaResultados;
-        }
-
-        @XmlElement(name = "resultado")
-        public void setlistaResultados(List<Resultado> listaResultados) {
-            this.listaResultados = listaResultados;
-        }
-    }
-}
